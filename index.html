@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI/ML Engineer specializing in RAG systems, LLM fine-tuning, and production NLP pipelines.">
+<title>Zeyad El-Sayed — AI/ML Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #09090b;
+    --bg2: #111113;
+    --bg3: #18181c;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e4e4e7;
+    --text-muted: #71717a;
+    --text-dim: #52525b;
+    --accent: #a3e635;
+    --accent2: #84cc16;
+    --accent-dim: rgba(163,230,53,0.12);
+    --accent-glow: rgba(163,230,53,0.25);
+    --white: #fafafa;
+    --radius: 12px;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    background: rgba(9,9,11,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links a:hover { color: var(--white); background: var(--bg3); }
+
+  .nav-links .btn-nav {
+    color: var(--bg);
+    background: var(--accent);
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 6px 16px;
+    margin-left: 8px;
+  }
+
+  .nav-links .btn-nav:hover { background: var(--accent2); }
+
+  .nav-links .btn-outline {
+    border: 1px solid var(--border2);
+    color: var(--text);
+    margin-left: 4px;
+  }
+
+  .nav-links .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: rgba(9,9,11,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 40px 28px;
+    z-index: 99;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-nav a {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    display: block;
+    transition: color 0.2s;
+  }
+
+  .mobile-nav a:hover { color: var(--accent); }
+  .mobile-nav a:last-child { border-bottom: none; }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 80px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(163,230,53,0.07) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 7rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+
+  .hero-title span {
+    display: block;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 540px;
+    margin: 24px 0 40px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+
+  .hero-divider {
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    background: var(--text-dim);
+    vertical-align: middle;
+    margin: 0 12px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.45s forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border2);
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-size: 0.78rem;
+    padding: 10px 18px;
+  }
+
+  .btn-ghost:hover { color: var(--white); border-color: var(--border2); }
+
+  .hero-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.55s forwards;
+  }
+
+  .hero-socials a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+
+  .hero-socials a:hover { color: var(--accent); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 80px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.7s forwards;
+  }
+
+  .scroll-hint::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--text-dim));
+    animation: scrollLine 1.5s 1s infinite;
+  }
+
+  @keyframes scrollLine {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6) translateY(-4px); }
+    50% { opacity: 1; transform: scaleY(1) translateY(0); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 100px 80px;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .section-title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  /* ─── ABOUT ─── */
+  #about .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 56px;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .about-text strong { color: var(--text); font-weight: 500; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover { border-color: var(--accent); }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-desc {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* Stack */
+  .stack-section { margin-top: 56px; }
+
+  .stack-category {
+    margin-bottom: 28px;
+  }
+
+  .stack-cat-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: all 0.18s;
+  }
+
+  .tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+  /* ─── PROJECTS ─── */
+  #projects .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .project-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover { border-color: rgba(163,230,53,0.3); transform: translateY(-2px); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-card.featured { border-color: rgba(163,230,53,0.2); }
+  .project-card.featured::before { opacity: 0.5; }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .project-type {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  .badge-green { background: rgba(163,230,53,0.15); color: var(--accent); border: 1px solid rgba(163,230,53,0.3); }
+  .badge-blue { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
+  .badge-purple { background: rgba(139,92,246,0.12); color: #a78bfa; border: 1px solid rgba(139,92,246,0.25); }
+
+  .project-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .project-links a {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .project-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+  .project-name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .project-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    max-width: 680px;
+  }
+
+  .project-highlights {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+
+  .project-highlights li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    padding: 5px 0;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .project-highlights li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .project-highlights strong { color: var(--text); font-weight: 500; }
+
+  .project-kpis {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .kpi-val {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Collapsible sub-projects */
+  .sub-projects { margin-top: 24px; }
+
+  .sub-project-toggle {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg3);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 0;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .sub-project-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+  .sub-project-list {
+    display: none;
+    margin-top: 12px;
+    border-left: 2px solid var(--border);
+    padding-left: 20px;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .sub-project-list.open { display: flex; }
+
+  .sub-project-item { }
+
+  .sub-project-name {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sub-project-name a {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: all 0.18s;
+  }
+
+  .sub-project-name a:hover { color: var(--accent); border-color: var(--accent); }
+
+  .sub-project-tech {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+  }
+
+  /* ─── EXPERIENCE ─── */
+  #experience .timeline { margin-top: 56px; }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 40px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline-item:last-child { border-bottom: none; }
+
+  .timeline-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .timeline-org {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .timeline-period {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  .timeline-loc {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+  }
+
+  .timeline-role {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .timeline-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .timeline-bullets li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .timeline-bullets li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .timeline-bullets strong { color: var(--text); font-weight: 500; }
+
+  /* Education card */
+  .edu-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .edu-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .edu-degree {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .edu-project {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--text-dim);
+  }
+
+  .edu-period {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+
+  .edu-gpa {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 24px;
+    text-align: center;
+    min-width: 100px;
+  }
+
+  .edu-gpa-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .edu-gpa-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    text-align: center;
+    padding-bottom: 120px;
+  }
+
+  #contact .section-title { margin-bottom: 24px; }
+
+  .contact-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .contact-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .contact-links a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+
+  .contact-links a:hover { color: var(--accent); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  footer p {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  footer span { color: var(--text-dim); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mobile-nav.open { display: flex; }
+
+    #hero { padding: 100px 24px 60px; }
+    .scroll-hint { left: 24px; }
+
+    section { padding: 72px 24px; }
+    footer { padding: 24px; }
+
+    #about .about-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    .timeline-item { grid-template-columns: 1fr; gap: 12px; }
+    .timeline-left { flex-direction: row; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+    .edu-card { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .hero-title { font-size: 2.8rem; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .project-header { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">zeyad.ai</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://zeyadusf.github.io/Zeyad_ElSayed_CV.pdf" target="_blank" class="btn-ghost btn">CV</a></li>
+    <li><a href="https://github.com/zeyadusf" target="_blank" class="btn-outline btn">GitHub ↗</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#projects" onclick="toggleMenu()">Projects</a>
+  <a href="#experience" onclick="toggleMenu()">Experience</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="https://zeyadusf.github.io/Zeyad_ElSayed_CV.pdf" target="_blank">⬇ Download CV</a>
+  <a href="https://github.com/zeyadusf" target="_blank">GitHub ↗</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-label">AI/ML Engineer</div>
+  <h1 class="hero-title">
+    Zeyad <span>El-Sayed</span>
+  </h1>
+  <p class="hero-sub">
+    Building intelligent systems and bringing research into production that actually run in production
+  </p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="mailto:ziayd.usf@gmail.com" class="btn btn-secondary">Get in Touch</a>
+    <a href="https://zeyadusf.github.io/Zeyad_ElSayed_CV.pdf" target="_blank" class="btn btn-ghost">Download CV</a>
+  </div>
+  <div class="hero-socials">
+    <a href="https://github.com/zeyadusf" target="_blank">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 6.1 18 6.4 18 6.4c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.2.9 2.3v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+      zeyadusf
+    </a>
+    <a href="https://www.linkedin.com/in/zeyadusf" target="_blank">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.35-1.85 3.58 0 4.24 2.36 4.24 5.43v6.31zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+      zeyadusf
+    </a>
+    <a href="https://huggingface.co/zeyadusf" target="_blank">🤗 HuggingFace</a>
+    <a href="mailto:ziayd.usf@gmail.com">ziayd.usf@gmail.com</a>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">I build AI that works in the <em>real world</em></h2>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm an AI/ML Engineer who bridges the gap between cutting-edge research and <strong>production-grade systems</strong>. My focus is on building intelligent systems that are not only accurate but also reliable, efficient, and maintainable under real-world constraints.</p>
+      <p>My work spans the full lifecycle: designing <strong>RAG pipelines</strong> and <strong>hybrid retrieval systems</strong>, fine-tuning large language models with modern PEFT techniques, and engineering multi-modal AI solutions for detection, classification, and generation tasks.</p>
+      <p>I hold a B.S. in Computers &amp; AI from Benha University, where my graduation project — a multi-modal AI-content detector — achieved over <strong>95% accuracy</strong> across image, text, and audio modalities.</p>
+
+      <div class="stats-grid" style="margin-top:40px;">
+        <div class="stat-card">
+          <div class="stat-num">10+</div>
+          <div class="stat-desc">Projects shipped &amp; deployed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">95%+</div>
+          <div class="stat-desc">Avg accuracy across AI detection tasks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">99%</div>
+          <div class="stat-desc">Parameter reduction via QLoRA fine-tuning</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3.4</div>
+          <div class="stat-desc">GPA / 4.0 — B.S. Computers &amp; AI</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-section reveal">
+      <div style="margin-bottom:6px;"><span class="section-label" style="display:inline-block;margin-bottom:24px;">Technical Stack</span></div>
+
+      <div class="stack-category">
+        <div class="stack-cat-label">LLM Engineering</div>
+        <div class="tags">
+          <span class="tag">RAG Systems</span>
+          <span class="tag">LangChain</span>
+          <span class="tag">Fine-Tuning (LoRA / QLoRA)</span>
+          <span class="tag">PEFT</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">HuggingFace</span>
+        </div>
+      </div>
+
+      <div class="stack-category">
+        <div class="stack-cat-label">Deep Learning &amp; CV</div>
+        <div class="tags">
+          <span class="tag">PyTorch</span>
+          <span class="tag">Transformers</span>
+          <span class="tag">CNNs / GANs</span>
+          <span class="tag">Keras</span>
+          <span class="tag">Scikit-learn</span>
+          <span class="tag">OpenCV</span>
+        </div>
+      </div>
+
+      <div class="stack-category">
+        <div class="stack-cat-label">Backend &amp; MLOps</div>
+        <div class="tags">
+          <span class="tag">FastAPI</span>
+          <span class="tag">Docker</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">Railway</span>
+          <span class="tag">Cloudflare</span>
+          <span class="tag">Streamlit</span>
+        </div>
+      </div>
+
+      <div class="stack-category">
+        <div class="stack-cat-label">Languages &amp; Data</div>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">C++</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">Power BI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header">
+    <div>
+      <div class="section-label">Work</div>
+      <h2 class="section-title">Selected <em>Projects</em></h2>
+    </div>
+  </div>
+
+  <!-- TesseractRAG -->
+  <div class="project-card featured reveal">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-type">RAG System</span>
+        <span class="badge badge-green">Live in Production</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/zeyadusf/TesseractRAG" target="_blank">GitHub</a>
+        <a href="https://tesseractrag.ziayd-usf.workers.dev" target="_blank">Live Demo ↗</a>
+      </div>
+    </div>
+    <div class="project-name">TesseractRAG</div>
+    <p class="project-desc">A fully deployed production RAG system with multi-session document Q&amp;A. Features a FastAPI backend, a modern frontend, and persistent cloud storage — engineered for reliability under real hardware constraints.</p>
+    <ul class="project-highlights">
+      <li>Hybrid retrieval: <strong>BM25 + FAISS + RRF fusion</strong> with cross-encoder reranking (ms-marco-MiniLM-L-6-v2)</li>
+      <li>Integrated <strong>Llama-3.1-8B-Instruct</strong> via HuggingFace Inference API with intelligent query routing</li>
+      <li>Memory-efficient architecture: lazy-loaded components, serialized indices, on-demand rebuilding</li>
+    </ul>
+    <div class="tags" style="margin-top:20px;">
+      <span class="tag">FastAPI</span><span class="tag">FAISS</span><span class="tag">BM25</span>
+      <span class="tag">BGE Embeddings</span><span class="tag">Docker</span><span class="tag">Railway</span>
+      <span class="tag">Cloudflare</span><span class="tag">Backblaze B2</span>
+    </div>
+    <div class="project-kpis">
+      <div class="kpi"><div class="kpi-val">Hybrid</div><div class="kpi-label">Retrieval Strategy</div></div>
+      <div class="kpi"><div class="kpi-val">Multi</div><div class="kpi-label">Session Support</div></div>
+      <div class="kpi"><div class="kpi-val">Live</div><div class="kpi-label">Production Status</div></div>
+    </div>
+  </div>
+
+  <!-- Catch the AI -->
+  <div class="project-card reveal">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-type">Multi-Modal AI</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/zeyadusf/Catch-The-AI" target="_blank">GitHub</a>
+        <a href="https://catch-the-ai.vercel.app/" target="_blank">Live ↗</a>
+      </div>
+    </div>
+    <div class="project-name">Catch the AI</div>
+    <p class="project-desc">Multi-modal AI-generated content detector covering images, text, and audio. Built as a graduation project using state-of-the-art detection architectures, deployed as a full-stack web application.</p>
+    <ul class="project-highlights">
+      <li>ViT → <strong>96%</strong> accuracy on AI-generated images</li>
+      <li>DeBERTa + RoBERTa with an ensemble technique using a feedforward model → <strong>95%</strong> accuracy on AI-generated text</li>
+      <li>Wav2Vec 2.0 → <strong>90%</strong> accuracy on AI-generated audio</li>
+    </ul>
+    <div class="tags" style="margin-top:20px;">
+      <span class="tag">ViT</span><span class="tag">DeBERTa</span><span class="tag">Wav2Vec 2.0</span>
+      <span class="tag">Django</span><span class="tag">React</span><span class="tag">PostgreSQL</span>
+    </div>
+  </div>
+
+  <!-- Fine-Tuning LLMs -->
+  <div class="project-card reveal">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-type">LLM Engineering</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/zeyadusf/Finetuning-LLMs" target="_blank">GitHub</a>
+        <a href="https://huggingface.co/zeyadusf" target="_blank">🤗 HF ↗</a>
+      </div>
+    </div>
+    <div class="project-name">Fine-Tuning LLMs</div>
+    <p class="project-desc">A comprehensive fine-tuning repository covering NLP tasks with deployed models on HuggingFace Spaces. Applies modern PEFT techniques for efficient training with minimal compute.</p>
+    <ul class="project-highlights">
+      <li>LoRA &amp; QLoRA — up to <strong>99%</strong> reduction in trainable parameters</li>
+      <li>Evaluated with ROUGE-L, BLEU — <strong>95%+</strong> performance across tasks</li>
+      <li>Models publicly deployed and accessible on HuggingFace Spaces</li>
+    </ul>
+    <div class="tags" style="margin-top:20px;">
+      <span class="tag">PyTorch</span><span class="tag">LoRA / QLoRA</span><span class="tag">PEFT</span><span class="tag">HuggingFace</span>
+    </div>
+
+    <!-- Sub-projects -->
+    <div class="sub-projects">
+      <div class="sub-project-toggle" onclick="toggleSub(this)">📝 Classification ▾</div>
+      <div class="sub-project-list">
+        <div class="sub-project-item">
+          <div class="sub-project-name">
+            DAIGT — AI Text Detection
+            <a href="https://github.com/zeyadusf/DAIGT-Catch-the-AI" target="_blank">GitHub</a>
+            <a href="https://huggingface.co/spaces/zeyadusf/Detection-of-AI-Generated-Text" target="_blank">🤗 HF Space</a>
+          </div>
+          <div class="sub-project-tech">Models: RoBERTa · DeBERTa · BERT · DistilBERT · Ensemble</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-projects">
+      <div class="sub-project-toggle" onclick="toggleSub(this)">📄 Summarization ▾</div>
+      <div class="sub-project-list">
+        <div class="sub-project-item">
+          <div class="sub-project-name">
+            Summarization by Fine-Tuning
+            <a href="https://github.com/zeyadusf/Summarization-by-Finetuning-FlanT5-LoRA" target="_blank">GitHub</a>
+            <a href="https://huggingface.co/spaces/zeyadusf/Summarizationflant5" target="_blank">🤗 HF Space</a>
+          </div>
+          <div class="sub-project-tech">Models: FlanT5 · PEFT (LoRA)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-projects">
+      <div class="sub-project-toggle" onclick="toggleSub(this)">✍️ Text Generation ▾</div>
+      <div class="sub-project-list">
+        <div class="sub-project-item">
+          <div class="sub-project-name">Finetune Llama 2 <a href="https://github.com/zeyadusf/FineTune-Llama2" target="_blank">GitHub</a></div>
+        </div>
+        <div class="sub-project-item">
+          <div class="sub-project-name">Text2Pandas <a href="https://github.com/zeyadusf/Text2Pandas" target="_blank">GitHub</a> <a href="https://huggingface.co/spaces/zeyadusf/Text2Pandas" target="_blank">🤗 HF Space</a></div>
+          <div class="sub-project-tech">Models: Llama 2 · T5-base</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAG / Search -->
+  <div class="project-card reveal">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-type">RAG / Search</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/zeyadusf/Semantic_Search_and_RAG" target="_blank">GitHub</a>
+      </div>
+    </div>
+    <div class="project-name">Semantic Search &amp; RAG Guide</div>
+    <p class="project-desc">A hands-on end-to-end guide to building Retrieval-Augmented Generation systems — from semantic search fundamentals to full RAG pipelines. Designed for practitioners at all levels.</p>
+    <ul class="project-highlights">
+      <li>Covers semantic search, dense retrieval, and how LLMs integrate with retrieved context</li>
+      <li>End-to-end pipeline: embedding, indexing, retrieval, reranking, and generation</li>
+      <li>Practical resource bridging theory and production implementation</li>
+    </ul>
+    <div class="tags" style="margin-top:20px;">
+      <span class="tag">RAG</span><span class="tag">Semantic Search</span><span class="tag">Embeddings</span>
+      <span class="tag">LLMs</span><span class="tag">Python</span>
+    </div>
+  </div>
+
+  <!-- LLMs from Scratch -->
+  <div class="project-card reveal">
+    <div class="project-header">
+      <div class="project-meta"><span class="project-type">Deep Learning</span></div>
+      <div class="project-links">
+        <a href="https://github.com/zeyadusf/LLMs-from-Scratch" target="_blank">GitHub</a>
+      </div>
+    </div>
+    <div class="project-name">LLMs from Scratch</div>
+    <p class="project-desc">A complete implementation of a Large Language Model from scratch in pure PyTorch — built to deeply understand the internals of modern transformer architectures.</p>
+    <ul class="project-highlights">
+      <li>Tokenization, multi-head self-attention, positional encodings, full transformer blocks</li>
+      <li>End-to-end training &amp; evaluation pipelines built from the ground up</li>
+    </ul>
+    <div class="tags" style="margin-top:20px;">
+      <span class="tag">PyTorch</span><span class="tag">Transformers</span><span class="tag">NLP</span>
+    </div>
+  </div>
+
+  <!-- ML Research -->
+  <div class="project-card reveal">
+    <div class="project-header">
+      <div class="project-meta"><span class="project-type">ML / Data Science</span></div>
+    </div>
+    <div class="project-name">ML Research Projects</div>
+    <p class="project-desc">Two focused machine learning projects addressing real-world data challenges: class imbalance treatment and credit risk classification — both production-reliability focused.</p>
+    <ul class="project-highlights">
+      <li>Benchmarked SMOTE, TomekLinks, and hybrid sampling across KNN, XGBoost, RF, SGD, DT classifiers</li>
+      <li>Automated model comparison via PyCaret (Extra Trees, RF, XGBoost) on financial credit data</li>
+      <li>Statistical handling of missing &amp; incorrect values using domain-appropriate strategies</li>
+    </ul>
+    <div class="tags" style="margin-top:20px;">
+      <span class="tag">Python</span><span class="tag">Scikit-learn</span><span class="tag">PyCaret</span>
+      <span class="tag">XGBoost</span><span class="tag">imbalanced-learn</span><span class="tag">Tableau</span>
+    </div>
+    <div class="sub-projects">
+      <div class="sub-project-toggle" onclick="toggleSub(this)">⚖️ Imbalanced Data ▾</div>
+      <div class="sub-project-list">
+        <div class="sub-project-item">
+          <div class="sub-project-name">Imbalance Treatment Techniques <a href="https://github.com/zeyadusf/Handling_Imbalanced_Data_in_ML" target="_blank">GitHub</a></div>
+          <div class="sub-project-tech">Tech: SMOTE · TomekLinks · RandomOverSampler · NearMiss · imbalanced-learn</div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-projects">
+      <div class="sub-project-toggle" onclick="toggleSub(this)">💳 Credit Score ▾</div>
+      <div class="sub-project-list">
+        <div class="sub-project-item">
+          <div class="sub-project-name">Credit Score Classification <a href="https://github.com/zeyadusf/Credit-score-classification" target="_blank">GitHub</a></div>
+          <div class="sub-project-tech">Tech: PyCaret · Extra Trees · XGBoost · Missing Value Handling · Tableau</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End-to-End ML -->
+  <div class="project-card reveal">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-type">End-to-End ML</span>
+        <span class="badge badge-blue">Dockerized</span>
+      </div>
+    </div>
+    <div class="project-name">End-to-End ML Apps</div>
+    <p class="project-desc">Production-style ML applications demonstrating containerization, serving, and UI — taking trained models from notebook to fully functional deployable apps.</p>
+    <ul class="project-highlights">
+      <li>FastAPI backend + Streamlit UI + Docker Compose — each project fully containerized</li>
+      <li>Emphasis on deployment pipeline over model training alone</li>
+    </ul>
+    <div class="tags" style="margin-top:20px;">
+      <span class="tag">FastAPI</span><span class="tag">Streamlit</span><span class="tag">Docker</span>
+      <span class="tag">Docker Compose</span><span class="tag">DNN</span>
+    </div>
+    <div class="sub-projects">
+      <div class="sub-project-toggle" onclick="toggleSub(this)">⚽ FIFA Rating Predictor ▾</div>
+      <div class="sub-project-list">
+        <div class="sub-project-item">
+          <div class="sub-project-name">FIFA 25 Player Rating Predictor <a href="https://github.com/zeyadusf/FIFA-25-player-rating-predictor" target="_blank">GitHub</a></div>
+          <div class="sub-project-tech">Tech: DNN · Regression · FastAPI · Streamlit · Docker · Docker Compose</div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-projects">
+      <div class="sub-project-toggle" onclick="toggleSub(this)">📩 SMS Spam Detector ▾</div>
+      <div class="sub-project-list">
+        <div class="sub-project-item">
+          <div class="sub-project-name">SMS Spam Detection <a href="https://github.com/zeyadusf/SMS-Spam-Detection" target="_blank">GitHub</a></div>
+          <div class="sub-project-tech">Tech: ML Classification · FastAPI · Streamlit · Docker · Docker Compose</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Experience &amp; Education</div>
+  <h2 class="section-title">Where I've <em>Worked</em> &amp; Studied</h2>
+
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-left">
+        <div class="timeline-org">ITI — Information Technology Institute</div>
+        <div class="timeline-period">Jul 2023 – Sep 2023</div>
+        <div class="timeline-loc">Egypt · On-site</div>
+      </div>
+      <div class="timeline-right">
+        <div class="timeline-role">Business Intelligence Trainee</div>
+        <ul class="timeline-bullets">
+          <li>Mastered SQL fundamentals, relational data modeling, and data warehouse design patterns (star/snowflake schemas).</li>
+          <li>Designed and delivered interactive dashboards using <strong>Tableau</strong> and <strong>Power BI</strong>, translating raw datasets into actionable business insights.</li>
+          <li>Applied BI tooling to real-world analytics projects covering KPI tracking, trend analysis, and ETL pipelines.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="edu-card reveal">
+    <div>
+      <div class="section-label" style="margin-bottom:12px;">Education</div>
+      <div class="edu-name">Benha University</div>
+      <div class="edu-degree">B.S. in Computers &amp; Artificial Intelligence</div>
+      <div class="edu-project">Graduation Project: Catch the AI — multi-modal AI-generated content detector</div>
+      <div class="edu-period" style="margin-top:10px;">Oct 2020 – Jun 2024</div>
+    </div>
+    <div class="edu-gpa">
+      <div class="edu-gpa-num">3.4</div>
+      <div class="edu-gpa-label">GPA / 4.0</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title">Let's <em>build</em> something together</h2>
+  <p class="contact-sub">I'm open to full-time roles, freelance projects, and research collaborations in AI/ML engineering.</p>
+
+  <div class="contact-actions">
+    <a href="mailto:ziayd.usf@gmail.com" class="btn btn-primary">Email Me</a>
+    <a href="https://www.linkedin.com/in/zeyadusf" target="_blank" class="btn btn-secondary">LinkedIn</a>
+    <a href="https://github.com/zeyadusf" target="_blank" class="btn btn-ghost">GitHub</a>
+    <a href="https://huggingface.co/zeyadusf" target="_blank" class="btn btn-ghost">HuggingFace</a>
+    <a href="https://zeyadusf.github.io/Zeyad_ElSayed_CV.pdf" target="_blank" class="btn btn-ghost">Download CV</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Zeyad El-Sayed · AI/ML Engineer</p>
+  <p>Built with HTML/CSS/JS · Deployed on GitHub Pages</p>
+</footer>
+
+<script>
+  // Mobile menu
+  function toggleMenu() {
+    const nav = document.getElementById('mobileNav');
+    nav.classList.toggle('open');
+  }
+
+  // Collapsible sub-projects
+  function toggleSub(el) {
+    const list = el.nextElementSibling;
+    list.classList.toggle('open');
+    const arrow = el.textContent.endsWith('▾') ? '▴' : '▾';
+    el.textContent = el.textContent.slice(0, -1) + arrow;
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav active state on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY + 80;
+    sections.forEach(section => {
+      if (scrollY >= section.offsetTop && scrollY < section.offsetTop + section.offsetHeight) {
+        navLinks.forEach(a => a.style.color = '');
+        const active = document.querySelector(`.nav-links a[href="#${section.id}"]`);
+        if (active) active.style.color = 'var(--accent)';
+      }
+    });
+  });
+</script>
+</body>
+</html>
